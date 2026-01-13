@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>রসায়ন ৩য় অধ্যায় কুইজ</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Babel CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Lucide Icons for UI -->
+    <script src="https://unpkg.com/lucide-react"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .option-transition {
+            transition: all 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const quizData = [
+            {
+                question: "s-ব্লকের মৌল সংখ্যা কয়টি?",
+                options: ["১৪টি", "২৪টি", "২৬টি", "৩৬টি"],
+                answer: "১৪টি",
+                rationale: "পর্যায় সারণির গ্রুপ ১, গ্রুপ ২ এবং হিলিয়াম মিলে মোট ১৪টি মৌল s-ব্লকভুক্ত।"
+            },
+            {
+                question: "p-ব্লকের মৌল সংখ্যা কয়টি?",
+                options: ["১৪টি", "৩৬টি", "৪১টি", "২৭টি"],
+                answer: "৩৬টি",
+                rationale: "গ্রুপ ১৩ থেকে ১৮ পর্যন্ত (হিলিয়াম বাদে) মৌলগুলো p-ব্লকভুক্ত।"
+            },
+            {
+                question: "d-ব্লকের মৌল সংখ্যা কয়টি?",
+                options: ["১৪টি", "৩৬টি", "৪১টি", "২৭টি"],
+                answer: "৪১টি",
+                rationale: "গ্রুপ ৩ থেকে ১২ পর্যন্ত মৌল এবং ৪টি d-সিরিজ মিলে মোট ৪১টি d-ব্লক মৌল বিদ্যমান।"
+            },
+            {
+                question: "পর্যায় সারণির কোন শ্রেণির মৌলকে চ্যালকোজেন বলে?",
+                options: ["১৩", "১৪", "১৫", "১৬"],
+                answer: "১৬",
+                rationale: "গ্রুপ ১৬-এর মৌলসমূহকে আকরিক গঠনকারী বা চ্যালকোজেন বলা হয়।"
+            },
+            {
+                question: "f ব্লক মৌল সংখ্যা কয়টি?",
+                options: ["২৭টি", "৩০টি", "৩৬টি", "৪১টি"],
+                answer: "২৭টি",
+                rationale: "ল্যান্থানাইড ও অ্যাক্টিনাইড সিরিজের অধিকাংশ মৌল মিলে f-ব্লক মৌল সংখ্যা ২৭টি।"
+            },
+            {
+                question: "দৈত্যাকার অণু গঠন করে কোনটি?",
+                options: ["CO2", "SiO2", "SO2", "NO2"],
+                answer: "SiO2",
+                rationale: "সিলিকন ডাই-অক্সাইড একটি ত্রিমাত্রিক পলিমারিক কাঠামো গঠন করে যা দৈত্যাকার অণু হিসেবে পরিচিত।"
+            },
+            {
+                question: "নিচের কোন আয়নটি রঙিন যৌগ গঠন করে?",
+                options: ["Sc3+", "Mg2+", "Zn2+", "Ni2+"],
+                answer: "Ni2+",
+                rationale: "নিকেল একটি অবস্থান্তর মৌল যার আয়নে অপূর্ণ d-অরবিটাল থাকায় এটি রঙিন যৌগ গঠন করে।"
+            },
+            {
+                question: "ইলেকট্রন ত্যাগ করে ধনাত্মক আয়নে পরিণত হতে প্রয়োজনীয় শক্তিকে কী বলে?",
+                options: ["ইলেকট্রন আসক্তি", "তড়িৎ ঋণাত্মকতা", "আয়নিক পটেনসিয়াল", "আয়নীকরণ শক্তি"],
+                answer: "আয়নীকরণ শক্তি",
+                rationale: "গ্যাসীয় অবস্থায় কোনো মৌলের ১ মোল পরমাণু থেকে ১ মোল ইলেকট্রন সরাতে যে শক্তি লাগে তা-ই আয়নীকরণ শক্তি।"
+            },
+            {
+                question: "কোনটির আয়নীকরণ শক্তি সবচেয়ে বেশি?",
+                options: ["কার্বন", "নাইট্রোজেন", "অক্সিজেন", "ফসফরাস"],
+                answer: "নাইট্রোজেন",
+                rationale: "নাইট্রোজেনের অর্ধপূর্ণ p-অরবিটাল (2p3) থাকায় এটি অধিক স্থিতিশীল এবং এর আয়নীকরণ শক্তি বেশি।"
+            },
+            {
+                question: "হ্যালোজেনসমূহের ইলেকট্রন আসক্তির সঠিক ক্রম কোনটি?",
+                options: ["Cl > F > Br > I", "F > Cl > Br > I", "Cl > Br > F > I", "I > Br > Cl > F"],
+                answer: "Cl > F > Br > I",
+                rationale: "ফ্লোরিনের আকার অতি ক্ষুদ্র হওয়ায় ইলেকট্রন বিকর্ষণের কারণে ক্লোরিনের ইলেকট্রন আসক্তি বেশি হয়।"
+            },
+            {
+                question: "পাউলিং স্কেলে অক্সিজেনের তড়িৎ ঋণাত্মকতার মান কত?",
+                options: ["২.৫", "৩.০", "৩.৫", "৪.০"],
+                answer: "৩.৫",
+                rationale: "তড়িৎ ঋণাত্মকতার স্কেলে ফ্লোরিনের মান ৪.০ এবং অক্সিজেনের মান ৩.৫।"
+            },
+            {
+                question: "কোন অক্সাইডটি উভধর্মী?",
+                options: ["MgO", "Al2O3", "CO2", "Na2O"],
+                answer: "Al2O3",
+                rationale: "অ্যালুমিনিয়াম অক্সাইড এসিড ও ক্ষার উভয়ের সাথেই বিক্রিয়া করতে পারে বলে এটি উভধর্মী।"
+            },
+            {
+                question: "NH4+ আয়নে কেন্দ্রীয় পরমাণুর সংকরণ কীরূপ?",
+                options: ["sp", "sp2", "sp3", "sp3d"],
+                answer: "sp3",
+                rationale: "অ্যামোনিয়াম আয়নে নাইট্রোজেন ৪টি সিগমা বন্ধন তৈরি করে, তাই এটি sp3 সংকরিত।"
+            },
+            {
+                question: "গ্রাফাইটে কোন ধরনের সংকরণ ঘটে?",
+                options: ["sp3", "sp2", "sp", "sp3d"],
+                answer: "sp2",
+                rationale: "গ্রাফাইটে প্রতিটি কার্বন পরমাণু অন্য ৩টি কার্বনের সাথে সমতলে যুক্ত থাকে, তাই এতে sp2 সংকরণ ঘটে।"
+            },
+            {
+                question: "পানির অণুর (H2O) বন্ধন কোণ কত?",
+                options: ["১০৪.৫°", "১০৭°", "১০৯.৫°", "১৮০°"],
+                answer: "১০৪.৫°",
+                rationale: "পানির অণুতে অক্সিজেন পরমাণুতে ২ জোড়া মুক্তজোড় ইলেকট্রন থাকায় বিকর্ষণের কারণে কোণ কমে ১০৪.৫° হয়।"
+            },
+            {
+                question: "NaCl এর গলনাঙ্ক কত?",
+                options: ["৭৭৬°C", "৮০১°C", "৮২৬°C", "৮৬২°C"],
+                answer: "৮০১°C",
+                rationale: "সোডিয়াম ক্লোরাইড একটি শক্তিশালী আয়নিক যৌগ যার গলনাঙ্ক প্রায় ৮০১ ডিগ্রি সেলসিয়াস।"
+            },
+            {
+                question: "হাইড্রোজেন বন্ধন থাকে কোনটিতে?",
+                options: ["NH3", "CH4", "H2S", "HI"],
+                answer: "NH3",
+                rationale: "নাইট্রোজেন অধিক তড়িৎ ঋণাত্মক হওয়ায় অ্যামোনিয়ার অণুতে হাইড্রোজেন বন্ধন গঠিত হয়।"
+            },
+            {
+                question: "নিচের কোন যৌগের আকৃতি সরলরৈখিক?",
+                options: ["CO2", "XeF4", "PCl5", "BF3"],
+                answer: "CO2",
+                rationale: "কার্বন ডাই-অক্সাইডে কার্বন পরমাণু sp সংকরিত হওয়ায় অণুর আকৃতি সরলরৈখিক হয়।"
+            },
+            {
+                question: "নিচের কোনটির আকার সবচেয়ে ছোট?",
+                options: ["F-", "O2-", "Na+", "N3-"],
+                answer: "Na+",
+                rationale: "এগুলো সম-ইলেকট্রনিক আয়ন। সোডিয়ামের প্রোটন সংখ্যা বেশি হওয়ায় নিউক্লিয়াসের আকর্ষণ বেশি থাকে, ফলে আকার ছোট হয়।"
+            },
+            {
+                question: "পর্যায় সারণির গ্রুপ ৩-এর মৌলসমূহকে কী বলা হয়?",
+                options: ["ক্ষার ধাতু", "মৃৎক্ষার ধাতু", "বিরল মৃত্তিকা ধাতু", "মুদ্রা ধাতু"],
+                answer: "বিরল মৃত্তিকা ধাতু",
+                rationale: "গ্রুপ ৩-এর মৌলসমূহ এবং ল্যান্থানাইড সিরিজের মৌলসমূহকে বিরল মৃত্তিকা মৌল বলা হয়।"
+            }
+        ];
+
+        function App() {
+            const [screen, setScreen] = useState('start'); // start, quiz, result
+            const [currentQ, setCurrentQ] = useState(0);
+            const [score, setScore] = useState(0);
+            const [selectedOption, setSelectedOption] = useState(null);
+            const [showRationale, setShowRationale] = useState(false);
+            const [allAnswers, setAllAnswers] = useState([]);
+            const [showSheet, setShowSheet] = useState(false);
+
+            const handleStart = () => {
+                setScreen('quiz');
+                setCurrentQ(0);
+                setScore(0);
+                setAllAnswers([]);
+                setShowSheet(false);
+            };
+
+            const handleOptionClick = (option) => {
+                if (selectedOption !== null) return;
+                
+                setSelectedOption(option);
+                setShowRationale(true);
+                
+                const isCorrect = option === quizData[currentQ].answer;
+                if (isCorrect) setScore(score + 1);
+                
+                setAllAnswers([...allAnswers, {
+                    question: quizData[currentQ].question,
+                    selected: option,
+                    correct: quizData[currentQ].answer,
+                    isCorrect: isCorrect,
+                    rationale: quizData[currentQ].rationale
+                }]);
+            };
+
+            const handleNext = () => {
+                if (currentQ < quizData.length - 1) {
+                    setCurrentQ(currentQ + 1);
+                    setSelectedOption(null);
+                    setShowRationale(false);
+                } else {
+                    setScreen('result');
+                }
+            };
+
+            const progress = ((currentQ + 1) / quizData.length) * 100;
+
+            if (screen === 'start') {
+                return (
+                    <div className="min-h-screen flex items-center justify-center p-4">
+                        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
+                            <div className="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <span className="text-4xl">🧪</span>
+                            </div>
+                            <h1 className="text-2xl font-bold text-gray-800 mb-2">রসায়ন ১ম পত্র</h1>
+                            <p className="text-gray-600 mb-6 font-medium">৩য় অধ্যায়: মৌলের পর্যায়বৃত্ত ধর্ম ও রাসায়নিক বন্ধন</p>
+                            <button 
+                                onClick={handleStart}
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105"
+                            >
+                                কুইজ শুরু করুন
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (screen === 'quiz') {
+                const q = quizData[currentQ];
+                return (
+                    <div className="min-h-screen p-4 flex flex-col items-center">
+                        <div className="max-w-2xl w-full">
+                            {/* Progress Bar */}
+                            <div className="bg-white p-4 rounded-xl shadow-sm mb-6">
+                                <div className="flex justify-between items-center mb-2">
+                                    <span className="text-sm font-semibold text-blue-600">প্রশ্ন {currentQ + 1}/{quizData.length}</span>
+                                    <span className="text-sm font-semibold text-gray-500">{Math.round(progress)}% সম্পন্ন</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div className="bg-blue-600 h-2.5 rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
+                                </div>
+                            </div>
+
+                            {/* Question Card */}
+                            <div className="bg-white p-6 rounded-2xl shadow-lg mb-6">
+                                <h2 className="text-xl font-bold text-gray-800 mb-6 leading-relaxed">
+                                    {q.question}
+                                </h2>
+                                <div className="space-y-3">
+                                    {q.options.map((option, idx) => {
+                                        let btnClass = "w-full text-left p-4 rounded-xl border-2 font-medium option-transition ";
+                                        if (selectedOption === null) {
+                                            btnClass += "border-gray-100 hover:border-blue-400 hover:bg-blue-50";
+                                        } else {
+                                            if (option === q.answer) {
+                                                btnClass += "border-green-500 bg-green-50 text-green-700";
+                                            } else if (option === selectedOption) {
+                                                btnClass += "border-red-500 bg-red-50 text-red-700";
+                                            } else {
+                                                btnClass += "border-gray-100 opacity-60";
+                                            }
+                                        }
+
+                                        return (
+                                            <button 
+                                                key={idx}
+                                                onClick={() => handleOptionClick(option)}
+                                                className={btnClass}
+                                                disabled={selectedOption !== null}
+                                            >
+                                                <div className="flex items-center justify-between">
+                                                    <span>{option}</span>
+                                                    {selectedOption && option === q.answer && <span className="text-green-600">✓</span>}
+                                                    {selectedOption === option && option !== q.answer && <span className="text-red-600">✕</span>}
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                {showRationale && (
+                                    <div className="mt-6 p-4 bg-yellow-50 rounded-xl border border-yellow-200 animate-pulse">
+                                        <p className="text-sm font-bold text-yellow-800 mb-1">ব্যাখ্যা (Rationale):</p>
+                                        <p className="text-gray-700 leading-relaxed">{q.rationale}</p>
+                                    </div>
+                                )}
+                            </div>
+
+                            {selectedOption && (
+                                <button 
+                                    onClick={handleNext}
+                                    className="w-full bg-gray-800 hover:bg-black text-white font-bold py-4 rounded-xl shadow-lg transition duration-300"
+                                >
+                                    {currentQ === quizData.length - 1 ? "ফলাফল দেখুন" : "পরবর্তী প্রশ্ন"}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                );
+            }
+
+            if (screen === 'result') {
+                return (
+                    <div className="min-h-screen p-4 flex flex-col items-center justify-center">
+                        <div className="max-w-2xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
+                            <div className="bg-blue-600 p-8 text-center text-white">
+                                <h1 className="text-3xl font-bold mb-2">অভিনন্দন!</h1>
+                                <p className="opacity-90">আপনি কুইজটি সম্পন্ন করেছেন</p>
+                            </div>
+                            
+                            <div className="p-8 text-center">
+                                <div className="text-6xl font-black text-gray-800 mb-2">
+                                    {score} <span className="text-2xl text-gray-400">/ {quizData.length}</span>
+                                </div>
+                                <p className="text-gray-500 mb-8">আপনার সঠিক উত্তর প্রদানের হার {Math.round((score / quizData.length) * 100)}%</p>
+                                
+                                <div className="grid grid-cols-2 gap-4">
+                                    <button 
+                                        onClick={handleStart}
+                                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition"
+                                    >
+                                        পুনরায় শুরু করুন
+                                    </button>
+                                    <button 
+                                        onClick={() => setShowSheet(!showSheet)}
+                                        className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold py-3 rounded-xl transition"
+                                    >
+                                        {showSheet ? "উত্তরপত্র লুকান" : "উত্তরপত্র দেখুন"}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {showSheet && (
+                                <div className="border-t border-gray-100 p-6 bg-gray-50 max-h-96 overflow-y-auto">
+                                    <h3 className="text-lg font-bold mb-4 text-gray-700">বিস্তারিত উত্তরপত্র:</h3>
+                                    <div className="space-y-6">
+                                        {allAnswers.map((item, idx) => (
+                                            <div key={idx} className="bg-white p-4 rounded-xl shadow-sm">
+                                                <p className="font-bold text-gray-800 mb-2">{idx + 1}. {item.question}</p>
+                                                <div className="flex flex-wrap gap-2 text-sm mb-2">
+                                                    <span className={`px-2 py-1 rounded ${item.isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                                        আপনার উত্তর: {item.selected}
+                                                    </span>
+                                                    {!item.isCorrect && (
+                                                        <span className="px-2 py-1 rounded bg-green-100 text-green-700 font-bold">
+                                                            সঠিক উত্তর: {item.correct}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <p className="text-xs text-gray-500 italic bg-gray-50 p-2 rounded border-l-2 border-blue-400">
+                                                    {item.rationale}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
